@@ -1,0 +1,11 @@
+{
+  "id": "Act3Buff",
+  "name": "Act3Buff",
+  "author": "hex3",
+  "description": "Makes Act 3 more difficult by enhancing multiple enemies' movesets.",
+  "version": "1.0.0",
+  "has_pck": true,
+  "has_dll": true,
+  "dependencies": ["BaseLib"],
+  "affects_gameplay": true
+}

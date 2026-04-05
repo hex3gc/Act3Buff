@@ -1,0 +1,9 @@
+{
+    "STOCK_POWER.description": "When killed, afflicts [blue]1[/blue] [gold]Weak[/gold] and [blue]1[/blue] [gold]Vulnerable[/gold], then a new Axebot is summoned in its place.",
+    "CONSTRICT_POWER.description": "At the end of your turn, take [blue]1[/blue] damage.",
+    "CONSTRICT_POWER.smartDescription": "At the end of your turn, take [blue]{Amount}[/blue] damage.",
+
+    "ACT3BUFF-EPHEMERAL_POWER.title": "Ephemeral",
+    "ACT3BUFF-EPHEMERAL_POWER.description": "After taking damage 3 times during your turn, gains [blue]1[/blue] [gold]Intangible[/gold].",
+    "ACT3BUFF-EPHEMERAL_POWER.smartDescription": "After taking damage {Amount} times during your turn, gains [blue]1[/blue] [gold]Intangible[/gold]."
+}
