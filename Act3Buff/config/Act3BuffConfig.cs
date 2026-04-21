@@ -10,11 +10,12 @@ namespace Act3Buff.Config
             public static bool DoormakerEnabled { get; set; } = true;
             [SliderRange(10, 1000, 10)]
             [SliderLabelFormat("{0:0} hp")]
-            public static double DoormakerMaxHPEasy { get; set; } = 550;
+            public static double DoormakerMaxHPEasy { get; set; } = 600;
             [SliderRange(10, 1000, 10)]
             [SliderLabelFormat("{0:0} hp")]
-            public static double DoormakerMaxHPHard { get; set; } = 600;
+            public static double DoormakerMaxHPHard { get; set; } = 650;
             [SliderRange(5, 60, 1)]
+            /*
             public static double DoormakerHungerDamageEasy { get; set; } = 12;
             [SliderRange(5, 60, 1)]
             public static double DoormakerHungerDamageHard { get; set; } = 13;
@@ -27,11 +28,12 @@ namespace Act3Buff.Config
             public static double DoormakerGraspDamageEasy { get; set; } = 22;
             [SliderRange(5, 60, 1)]
             public static double DoormakerGraspDamageHard { get; set; } = 25;
+            */
 
         [ConfigSection("QueenSection")]
             public static bool QueenEnabled { get; set; } = true;
             [SliderRange(1, 10, 1)]
-            public static double QueenCardsAfflicted { get; set; } = 4;
+            public static double QueenCardsAfflicted { get; set; } = 3;
             public static bool QueenBurnsAdd { get; set; } = true;
             [SliderRange(1, 3, 1)]
             public static double QueenBurnsAddCount { get; set; } = 1;
@@ -39,7 +41,31 @@ namespace Act3Buff.Config
 
         [ConfigSection("TestSubjectSection")]
             public static bool TestSubjectEnabled { get; set; } = true;
+            [SliderRange(10, 1000, 10)]
+            [SliderLabelFormat("{0:0} hp")]
+            public static double TestSubject1MaxHPEasy { get; set; } = 90;
+            [SliderRange(10, 1000, 10)]
+            [SliderLabelFormat("{0:0} hp")]
+            public static double TestSubject1MaxHPHard { get; set; } = 100;
+            [SliderRange(10, 1000, 10)]
+            [SliderLabelFormat("{0:0} hp")]
+            public static double TestSubject2MaxHPEasy { get; set; } = 180;
+            [SliderRange(10, 1000, 10)]
+            [SliderLabelFormat("{0:0} hp")]
+            public static double TestSubject2MaxHPHard { get; set; } = 200;
+            [SliderRange(10, 1000, 10)]
+            [SliderLabelFormat("{0:0} hp")]
+            public static double TestSubject3MaxHPEasy { get; set; } = 270;
+            [SliderRange(10, 1000, 10)]
+            [SliderLabelFormat("{0:0} hp")]
+            public static double TestSubject3MaxHPHard { get; set; } = 300;
             public static bool TestSubjectBurningOpener { get; set; } = true;
+            public static bool TestSubjectIntangibleOpener { get; set; } = true;
+            [SliderRange(1, 10, 1)]
+            public static double TestSubjectBurningAmountEasy { get; set; } = 2;
+            [SliderRange(1, 10, 1)]
+            public static double TestSubjectBurningAmountHard { get; set; } = 3;
+            /*
             public static bool TestSubjectIntangiblePhases { get; set; } = true;
             public static bool TestSubjectAttack1Constrict { get; set; } = true;
             public static bool TestSubjectAttack2Constrict { get; set; } = true;
@@ -47,12 +73,25 @@ namespace Act3Buff.Config
             public static double TestSubjectConstrictAmountEasy { get; set; } = 4;
             [SliderRange(1, 20, 1)]
             public static double TestSubjectConstrictAmountHard { get; set; } = 5;
+            */
+            [SliderRange(5, 60, 1)]
+            public static double TestSubjectBiteDamageEasy { get; set; } = 18;
+            [SliderRange(5, 60, 1)]
+            public static double TestSubjectBiteDamageHard { get; set; } = 19;
+            [SliderRange(5, 60, 1)]
+            public static double TestSubjectBashDamageEasy { get; set; } = 12;
+            [SliderRange(5, 60, 1)]
+            public static double TestSubjectBashDamageHard { get; set; } = 13;
+            [SliderRange(5, 60, 1)]
+            public static double TestSubjectMultiDamageEasy { get; set; } = 8;
+            [SliderRange(5, 60, 1)]
+            public static double TestSubjectMultiDamageHard { get; set; } = 8;
 
         // ELITES
         [ConfigSection("SoulNexusSection")]
             public static bool SoulNexusEnabled { get; set; } = true;
             [SliderRange(1, 8, 1)]
-            public static double SoulNexusHits { get; set; } = 4;
+            public static double SoulNexusHits { get; set; } = 5;
 
         [ConfigSection("KnightsSection")]
             public static bool KnightsEnabled { get; set; } = true;

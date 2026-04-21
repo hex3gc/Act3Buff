@@ -29,10 +29,101 @@ namespace Act3Buff.Patches;
 
 /// <summary>
 ///     Makes the first phases more threatening by having more Intangible turns and adding Burns.
-///     The last phase gains a stacking Constrict effect to resemble Spire Growth and add time pressure.
+///     Made far less unfair by removing the previous Constrict and constant Intangible.
+///     This version maintains the additional flavor but also allows for unique plays around the 'setup' turns given to you each phase.
 /// </summary>
 internal static class TestSubjectPatch
 {
+    // Burning Growl burn amount change
+    [HarmonyPatch]
+    internal static class TestSubjectPatch_TestSubject_BurningGrowlBurnCount
+    {
+        [HarmonyPatch(typeof(TestSubject), "BurningGrowlBurnCount", MethodType.Getter)]
+        internal static bool Prefix(Doormaker __instance, ref int __result)
+        {
+            if (!Act3BuffConfig.TestSubjectEnabled) { return true; }
+
+            __result = AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, (int)Act3BuffConfig.TestSubjectBurningAmountHard, (int)Act3BuffConfig.TestSubjectBurningAmountEasy);
+            return false;
+        }
+    }
+
+    // Test Subject HP change
+    [HarmonyPatch]
+    internal static class TestSubjectPatch_TestSubject_FirstFormHp
+    {
+        [HarmonyPatch(typeof(TestSubject), "FirstFormHp", MethodType.Getter)]
+        internal static bool Prefix(Doormaker __instance, ref int __result)
+        {
+            if (!Act3BuffConfig.TestSubjectEnabled) { return true; }
+
+            __result = AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, (int)Act3BuffConfig.TestSubject1MaxHPHard, (int)Act3BuffConfig.TestSubject1MaxHPEasy);
+            return false;
+        }
+    }
+    [HarmonyPatch]
+    internal static class TestSubjectPatch_TestSubject_SecondFormHp
+    {
+        [HarmonyPatch(typeof(TestSubject), "SecondFormHp", MethodType.Getter)]
+        internal static bool Prefix(Doormaker __instance, ref int __result)
+        {
+            if (!Act3BuffConfig.TestSubjectEnabled) { return true; }
+
+            __result = AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, (int)Act3BuffConfig.TestSubject2MaxHPHard, (int)Act3BuffConfig.TestSubject2MaxHPEasy);
+            return false;
+        }
+    }
+    [HarmonyPatch]
+    internal static class TestSubjectPatch_TestSubject_ThirdFormHp
+    {
+        [HarmonyPatch(typeof(TestSubject), "ThirdFormHp", MethodType.Getter)]
+        internal static bool Prefix(Doormaker __instance, ref int __result)
+        {
+            if (!Act3BuffConfig.TestSubjectEnabled) { return true; }
+
+            __result = AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, (int)Act3BuffConfig.TestSubject3MaxHPHard, (int)Act3BuffConfig.TestSubject3MaxHPEasy);
+            return false;
+        }
+    }
+
+    // Damage nerf
+    [HarmonyPatch]
+    internal static class TestSubjectPatch_TestSubject_BiteDamage
+    {
+        [HarmonyPatch(typeof(TestSubject), "BiteDamage", MethodType.Getter)]
+        internal static bool Prefix(Doormaker __instance, ref int __result)
+        {
+            if (!Act3BuffConfig.TestSubjectEnabled) { return true; }
+
+            __result = AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, (int)Act3BuffConfig.TestSubjectBiteDamageHard, (int)Act3BuffConfig.TestSubjectBiteDamageEasy);
+            return false;
+        }
+    }
+    [HarmonyPatch]
+    internal static class TestSubjectPatch_TestSubject_SkullBashDamage
+    {
+        [HarmonyPatch(typeof(TestSubject), "SkullBashDamage", MethodType.Getter)]
+        internal static bool Prefix(Doormaker __instance, ref int __result)
+        {
+            if (!Act3BuffConfig.TestSubjectEnabled) { return true; }
+
+            __result = AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, (int)Act3BuffConfig.TestSubjectBashDamageHard, (int)Act3BuffConfig.TestSubjectBashDamageEasy);
+            return false;
+        }
+    }
+    [HarmonyPatch]
+    internal static class TestSubjectPatch_TestSubject_MultiClawDamage
+    {
+        [HarmonyPatch(typeof(TestSubject), "MultiClawDamage", MethodType.Getter)]
+        internal static bool Prefix(Doormaker __instance, ref int __result)
+        {
+            if (!Act3BuffConfig.TestSubjectEnabled) { return true; }
+
+            __result = AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, (int)Act3BuffConfig.TestSubjectMultiDamageHard, (int)Act3BuffConfig.TestSubjectMultiDamageEasy);
+            return false;
+        }
+    }
+
     // Add Intangible on phases 1 and 2
     [HarmonyPatch]
     internal static class TestSubjectPatch_TestSubject_AfterAddedToRoom
@@ -41,9 +132,9 @@ internal static class TestSubjectPatch
         internal static async void Postfix(TestSubject __instance)
         {
             if (!Act3BuffConfig.TestSubjectEnabled) { return; }
-            if (!Act3BuffConfig.TestSubjectIntangiblePhases) { return; }
+            if (!Act3BuffConfig.TestSubjectIntangibleOpener) { return; }
 
-            await PowerCmd.Apply<NemesisPower>(__instance.Creature, 1m, __instance.Creature, null);
+            await PowerCmd.Apply<IntangiblePower>(__instance.Creature, 1m, __instance.Creature, null);
         }
     }
     [HarmonyPatch]
@@ -53,14 +144,18 @@ internal static class TestSubjectPatch
         internal static async void Postfix(TestSubject __instance, IReadOnlyList<Creature> targets)
         {
             if (!Act3BuffConfig.TestSubjectEnabled) { return; }
-            if (!Act3BuffConfig.TestSubjectIntangiblePhases) { return; }
+            if (!Act3BuffConfig.TestSubjectIntangibleOpener) { return; }
 
-            await Cmd.Wait(2f);
-            await PowerCmd.Apply<NemesisPower>(__instance.Creature, 1m, __instance.Creature, null);
+            if (__instance.Respawns == 1)
+            {
+                await Cmd.Wait(3f); // Doesn't apply the power otherwise ??
+                await PowerCmd.Apply<IntangiblePower>(__instance.Creature, 1m, __instance.Creature, null);
+            }
         }
     }
 
     // Add constrict debuff
+    /*
     [HarmonyPatch]
     internal static class TestSubjectPatch_TestSubject_Phase3LacerateMove
     {
@@ -85,6 +180,7 @@ internal static class TestSubjectPatch
             await PowerCmd.Apply<ConstrictPower>(targets, AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, (int)Act3BuffConfig.TestSubjectConstrictAmountHard, (int)Act3BuffConfig.TestSubjectConstrictAmountEasy), __instance.Creature, null);
         }
     }
+    */
 
     // Change moveset
     [HarmonyPatch]
@@ -103,25 +199,30 @@ internal static class TestSubjectPatch
             MoveState moveState0 = new MoveState("BURNING_GROWL_MOVE_EARLY", __instance.BurningGrowlMove, new StatusIntent(__instance.BurningGrowlBurnCount), new BuffIntent());
             MoveState moveState = new MoveState("BITE_MOVE", __instance.BiteMove, new SingleAttackIntent(__instance.BiteDamage));
             MoveState moveState2 = new MoveState("SKULL_BASH_MOVE", __instance.SkullBashMove, new SingleAttackIntent(__instance.SkullBashDamage), new DebuffIntent());
+            MoveState moveStateMid = new MoveState("BURNING_GROWL_MOVE_MID", __instance.BurningGrowlMove, new StatusIntent(__instance.BurningGrowlBurnCount), new BuffIntent());
             MoveState moveState3 = new MoveState("MULTI_CLAW_MOVE", __instance.MultiClawMove, new MultiAttackIntent(__instance.MultiClawDamage, () => __instance.MultiClawTotalCount));
-            MoveState moveState4 = !Act3BuffConfig.TestSubjectAttack1Constrict ? new MoveState("PHASE3_LACERATE_MOVE", __instance.Phase3LacerateMove, new MultiAttackIntent(__instance.Phase3LacerateDamage, 3)) : new MoveState("PHASE3_LACERATE_MOVE", __instance.Phase3LacerateMove, new MultiAttackIntent(__instance.Phase3LacerateDamage, 3), new DebuffIntent());
-            MoveState moveState5 = !Act3BuffConfig.TestSubjectAttack2Constrict ? new MoveState("BIG_POUNCE_MOVE", __instance.BigPounceMove, new SingleAttackIntent(__instance.BigPounceDamage)) : new MoveState("BIG_POUNCE_MOVE", __instance.BigPounceMove, new SingleAttackIntent(__instance.BigPounceDamage), new DebuffIntent());
+            // MoveState moveState4 = !Act3BuffConfig.TestSubjectAttack1Constrict ? new MoveState("PHASE3_LACERATE_MOVE", __instance.Phase3LacerateMove, new MultiAttackIntent(__instance.Phase3LacerateDamage, 3)) : new MoveState("PHASE3_LACERATE_MOVE", __instance.Phase3LacerateMove, new MultiAttackIntent(__instance.Phase3LacerateDamage, 3), new DebuffIntent());
+            // MoveState moveState5 = !Act3BuffConfig.TestSubjectAttack2Constrict ? new MoveState("BIG_POUNCE_MOVE", __instance.BigPounceMove, new SingleAttackIntent(__instance.BigPounceDamage)) : new MoveState("BIG_POUNCE_MOVE", __instance.BigPounceMove, new SingleAttackIntent(__instance.BigPounceDamage), new DebuffIntent());
+            MoveState moveState4 = new MoveState("PHASE3_LACERATE_MOVE", __instance.Phase3LacerateMove, new MultiAttackIntent(__instance.Phase3LacerateDamage, 3));
+            MoveState moveState5 = new MoveState("BIG_POUNCE_MOVE", __instance.BigPounceMove, new SingleAttackIntent(__instance.BigPounceDamage));
             MoveState moveState6 = new MoveState("BURNING_GROWL_MOVE", __instance.BurningGrowlMove, new StatusIntent(__instance.BurningGrowlBurnCount), new BuffIntent());
             ConditionalBranchState conditionalBranchState = new ConditionalBranchState("REVIVE_BRANCH");
             moveState0.FollowUpState = moveState;
             moveState.FollowUpState = moveState2;
             moveState2.FollowUpState = moveState;
+            moveStateMid.FollowUpState = moveState3;
             moveState3.FollowUpState = moveState3;
             moveState4.FollowUpState = moveState5;
             moveState5.FollowUpState = moveState6;
             moveState6.FollowUpState = moveState4;
             __instance.DeadState.FollowUpState = conditionalBranchState;
-            conditionalBranchState.AddState(moveState3, () => __instance.Respawns < 2);
-            conditionalBranchState.AddState(moveState4, () => __instance.Respawns >= 2);
+            conditionalBranchState.AddState(Act3BuffConfig.TestSubjectBurningOpener ? moveStateMid : moveState3, () => __instance.Respawns < 2);
+            conditionalBranchState.AddState(Act3BuffConfig.TestSubjectBurningOpener ? moveState6 : moveState4, () => __instance.Respawns >= 2);
             list.Add(__instance.DeadState);
             if (Act3BuffConfig.TestSubjectBurningOpener) { list.Add(moveState0); }
             list.Add(moveState);
             list.Add(moveState2);
+            if (Act3BuffConfig.TestSubjectBurningOpener) { list.Add(moveStateMid); }
             list.Add(moveState3);
             list.Add(moveState4);
             list.Add(moveState5);

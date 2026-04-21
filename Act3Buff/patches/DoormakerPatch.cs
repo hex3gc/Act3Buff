@@ -49,6 +49,7 @@ internal static class DoormakerPatch
     }
 
     // Change Scrutiny attack
+    /*
     [HarmonyPatch]
     internal static class DoormakerPatch_Doormaker_ScrutinyMove
     {
@@ -144,4 +145,5 @@ internal static class DoormakerPatch
             return false;
         }
     }
+    */
 }
