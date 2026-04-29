@@ -45,8 +45,8 @@ internal static class AxebotPatch
 
             if (target == __instance.Owner)
             {
-                await PowerCmd.Apply<VulnerablePower>(__instance.Owner.CombatState.Creatures.Where((Creature c) => c.Side == CombatSide.Player), (decimal)Act3BuffConfig.AxebotVulnAdd, null, null);
-                await PowerCmd.Apply<WeakPower>(__instance.Owner.CombatState.Creatures.Where((Creature c) => c.Side == CombatSide.Player), (decimal)Act3BuffConfig.AxebotWeakAdd, null, null);
+                await PowerCmd.Apply<VulnerablePower>(new ThrowingPlayerChoiceContext(), __instance.Owner.CombatState.Creatures.Where((Creature c) => c.Side == CombatSide.Player), (decimal)Act3BuffConfig.AxebotVulnAdd, null, null);
+                await PowerCmd.Apply<WeakPower>(new ThrowingPlayerChoiceContext(), __instance.Owner.CombatState.Creatures.Where((Creature c) => c.Side == CombatSide.Player), (decimal)Act3BuffConfig.AxebotWeakAdd, null, null);
             }
         }
     }

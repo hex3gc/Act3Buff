@@ -39,7 +39,7 @@ namespace Act3Buff.Powers
                 InvokeDisplayAmountChanged();
                 if (data.counter == Amount)
                 {
-                    await PowerCmd.Apply<IntangiblePower>(target, 1, target, null);
+                    await PowerCmd.Apply<IntangiblePower>(new ThrowingPlayerChoiceContext(), target, 1, target, null);
                 }
             }
         }

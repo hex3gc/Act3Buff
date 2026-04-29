@@ -75,7 +75,7 @@ internal static class KnightsPatch
             
             if (__instance is SpectralKnight)
             {
-                await PowerCmd.Apply<IntangiblePower>(__instance.Creature, (int)Act3BuffConfig.KnightsGhostIntangible, __instance.Creature, null);
+                await PowerCmd.Apply<IntangiblePower>(new ThrowingPlayerChoiceContext(), __instance.Creature, (int)Act3BuffConfig.KnightsGhostIntangible, __instance.Creature, null);
             }
         }
     }

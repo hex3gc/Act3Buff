@@ -137,9 +137,9 @@ namespace Act3Buff.Config
         [ConfigSection("AxebotSection")]
             public static bool AxebotEnabled { get; set; } = true;
             [SliderRange(0, 3, 1)]
-            public static double AxebotWeakAdd { get; set; } = 1;
+            public static double AxebotWeakAdd { get; set; } = 2;
             [SliderRange(0, 3, 1)]
-            public static double AxebotVulnAdd { get; set; } = 1;
+            public static double AxebotVulnAdd { get; set; } = 2;
 
         [ConfigSection("GlobeheadSection")]
             public static bool GlobeheadEnabled { get; set; } = true;

@@ -51,7 +51,7 @@ internal static class GlobeheadPatch
         {
             if (!Act3BuffConfig.GlobeheadEnabled) { return; }
 
-            await PowerCmd.Apply<GalvanicPower>(__instance.Creature, (int)Act3BuffConfig.GlobeheadPowerDamage, __instance.Creature, null);
+            await PowerCmd.Apply<GalvanicPower>(new ThrowingPlayerChoiceContext(), __instance.Creature, (int)Act3BuffConfig.GlobeheadPowerDamage, __instance.Creature, null);
         }
     }
 }

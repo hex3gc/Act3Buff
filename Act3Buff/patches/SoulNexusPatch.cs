@@ -45,7 +45,7 @@ internal static class SoulNexusPatch
         {
             if (!Act3BuffConfig.SoulNexusEnabled) { return; }
 
-            await PowerCmd.Apply<EphemeralPower>(__instance.Creature, (int)Act3BuffConfig.SoulNexusHits, __instance.Creature, null);
+            await PowerCmd.Apply<EphemeralPower>(new ThrowingPlayerChoiceContext(), __instance.Creature, (int)Act3BuffConfig.SoulNexusHits, __instance.Creature, null);
             __instance.Creature.PowerApplied += AfterPowerApplied;
             __instance.Creature.PowerRemoved += AfterPowerRemoved;
         }

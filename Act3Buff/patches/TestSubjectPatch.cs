@@ -134,7 +134,7 @@ internal static class TestSubjectPatch
             if (!Act3BuffConfig.TestSubjectEnabled) { return; }
             if (!Act3BuffConfig.TestSubjectIntangibleOpener) { return; }
 
-            await PowerCmd.Apply<IntangiblePower>(__instance.Creature, 1m, __instance.Creature, null);
+            await PowerCmd.Apply<IntangiblePower>(new ThrowingPlayerChoiceContext(), __instance.Creature, 1m, __instance.Creature, null);
         }
     }
     [HarmonyPatch]
@@ -149,7 +149,7 @@ internal static class TestSubjectPatch
             if (__instance.Respawns == 1)
             {
                 await Cmd.Wait(3f); // Doesn't apply the power otherwise ??
-                await PowerCmd.Apply<IntangiblePower>(__instance.Creature, 1m, __instance.Creature, null);
+                await PowerCmd.Apply<IntangiblePower>(new ThrowingPlayerChoiceContext(), __instance.Creature, 1m, __instance.Creature, null);
             }
         }
     }

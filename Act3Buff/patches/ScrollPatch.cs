@@ -77,7 +77,7 @@ internal static class ScrollPatch
         {
             if (!Act3BuffConfig.ScrollEnabled) { return; }
 
-            await PowerCmd.Apply<PaperCutsPower>(__instance.Creature, (int)Act3BuffConfig.ScrollMaxHpReduction, __instance.Creature, null);
+            await PowerCmd.Apply<PaperCutsPower>(new ThrowingPlayerChoiceContext(), __instance.Creature, (int)Act3BuffConfig.ScrollMaxHpReduction, __instance.Creature, null);
         }
     }
 }

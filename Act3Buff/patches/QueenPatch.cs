@@ -52,7 +52,7 @@ internal static class QueenPatch
 
             SfxCmd.Play("event:/sfx/enemy/enemy_attacks/queen/queen_cast");
             await CreatureCmd.TriggerAnim(__instance.Creature, "Cast", 0.5f);
-            await PowerCmd.Apply<ChainsOfBindingPower>(targets, (int)Act3BuffConfig.QueenCardsAfflicted, __instance.Creature, null);
+            await PowerCmd.Apply<ChainsOfBindingPower>(new ThrowingPlayerChoiceContext(), targets, (int)Act3BuffConfig.QueenCardsAfflicted, __instance.Creature, null);
         }
     }
 
@@ -66,7 +66,7 @@ internal static class QueenPatch
             if (!Act3BuffConfig.QueenEnabled) { return; }
             if (!Act3BuffConfig.QueenBurnsAdd) { return; }
 
-            await CardPileCmd.AddToCombatAndPreview<Burn>(targets, PileType.Draw, (int)Act3BuffConfig.QueenBurnsAddCount, false);
+            await CardPileCmd.AddToCombatAndPreview<Burn>(targets, PileType.Draw, (int)Act3BuffConfig.QueenBurnsAddCount, null);
         }
     }
     [HarmonyPatch]
